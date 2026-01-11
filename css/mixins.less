@@ -1,0 +1,9 @@
+// 定义混合
+// 清除浮动的混合
+.clearfix() {
+    &::after {
+        content: "";//伪元素必须设置content，这里设为空字符串 
+        display: block;//将伪元素转为块级元素，使其能独占一行
+        clear: both;//清除该元素左右两侧的浮动影响
+    }
+}

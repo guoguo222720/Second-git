@@ -1,0 +1,749 @@
+// 入口文件
+// 导入变量
+@import "variables";
+
+// 导入混合
+@import "mixins";
+
+// 导入重置样式表
+@import "reset";
+
+// 整体样式设置
+.container{
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+}
+
+// topbar
+.topbar{
+    min-width: 1200px;
+    height: 30px;
+    line-height: 30px;
+    background: #eaeaea;
+    .container{
+        display: flex;//弹性容器
+        justify-content: space-between;//子元素在水平方向两端对齐
+
+        a{
+            padding: 0 10px;  
+            //选择容器内除了最后一个的所有<a>标签
+            &:not(:last-child){
+            border-right: 1px solid @sep-color;
+        }      
+        }
+        
+    }
+}
+
+// logo和搜索框
+.page-header{
+    min-width: 1200px;
+    .container{
+        display: flex;
+        justify-content: space-between;
+    }
+    .logo{
+        width: 175px;
+        height: 56px;
+        margin:25px 45px;
+    }
+    form{
+        display: flex;
+        margin-top: 35px;
+        input{
+            box-sizing: border-box;//元素的宽高包含边框和内边距，避免因边框/内边距导致实际尺寸超出预期
+            width: 490px;
+            height: 32px;
+            padding: 0 4px;
+            border: 2px solid @form-red;
+            outline: none;//移除外轮廓线
+        }
+        button{
+            width: 68px;
+            height: 32px;
+            color:#fff;
+            background: @form-red;
+            border: none;//去掉默认边框
+        }
+    }
+}
+
+//页面导航
+.page-nav{
+    border-bottom: 2px solid @btn-red;
+    min-width: 1200px;  
+    .container{   
+        display: flex; 
+        height: 50px;  
+        line-height: 50px;//文字垂直居中
+        .all-cates{           
+            h2{
+            width: 210px; 
+            text-align: center;  //文字水平居中
+            color: #fff;
+            background: @btn-red;
+            font-size: 14px;
+            }     
+        }
+        a{
+            margin: 0 22px;
+            font-size: 16px;
+            color: #333;
+        }
+    
+}
+
+}
+
+// 页面主要内容 商品区
+.page-main{
+    min-width: 1200px;
+    margin-top: 15px;  
+    .container{
+        // 路径导航
+        .pass-nav{
+            box-sizing: border-box;//元素的宽高包含边框和内边距
+        padding: 9px 15px 9px 0;
+            // 让span间距小一点
+            display: flex;
+            span{
+            // 添加伪类和伪元素
+            &:not(:last-child)::after{
+                content:"/\00a0";// '/'的Unicude编码
+                padding: 0 5px;
+                color: #ccc;
+            }
+        }
+        } 
+        
+        // 放大镜和商品参数选项
+        .product{
+            display: flex;
+            justify-content:space-between;
+            margin: 5px 0 15px;//上 左右 下
+            // 商品放大镜区域
+            .product-preview{
+                width: 400px;
+                // 放大镜
+                .zoom-box{
+                    position:relative;
+                    .small-image{
+                        position: relative;
+                        width: 400px;
+                        height: 400px;
+                        border: 1px solid #dfdfdf;
+                        // 蒙层
+                        .mask-box{
+                            display: none;
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            box-sizing: border-box;
+                            width: 200px;
+                            height: 200px;
+                            border: 1px solid #ddd;
+                            background: rgba(255,255,255,.5);
+                            cursor:move;
+                        }
+                    }
+                    .large-image{
+                        display: none;
+                        position: absolute;//绝对定位
+                        left: 420px;
+                        top:0;
+                        width: 400px;
+                        height: 400px;
+                        overflow: hidden;//溢出部分隐藏
+                        border: 1px solid #dfdfdf;
+                    }
+                }
+            }
+
+            // 缩略图区域
+            .thumb-box{
+                margin-top: 5px;
+                display: flex;
+                justify-content: space-between;
+                // 左右按钮
+                button{
+                    width: 10px;
+                    height: 54px;
+                    border: 1px solid #ccc;
+                    background: #ebebeb;
+                    cursor: pointer;
+                    &.thrumb-prev{
+                        margin-right: 4px;
+                    }
+                }
+                .thumb-content{
+                    position: relative;
+                    overflow: hidden;
+                    width: 372px;
+                    height: 56px;
+                    .thumb-wrapper{
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        display: flex;
+                        transition:left 300ms;
+                        img{
+                        width: 50px;
+                        height: 50px;
+                        border: 1px solid #ccc;
+                        margin-right: 20px;
+                        padding: 2px;
+                    }
+                    }
+                }
+            }
+
+            // 商品参数选项
+            .product-box {
+            width: 700px;
+            .product-price {
+                padding-bottom: 5px;
+                border-bottom: 1px solid #ededed;
+                .product-title{
+                    margin-top: 15px;
+                    font-size: 14px;
+                    line-height: 21px;
+                }
+                .product-message {
+                    margin-top: 15px;
+                    color: #e12228;
+                }
+                .price-area {
+                    margin-top: 10px;
+                    padding: 7px;
+                    line-height: 28px;
+                    background-color: #fee9ec;
+                    .price-row {
+                        .clearfix();   // 调用混合 清除浮动
+                        .price-title {
+                            float: left;
+                            margin-right: 15px;
+                        }
+                        .price-content {
+                            float: left;
+                        }
+                        .comment {
+                            float: right;
+                        }
+                        &:first-child {
+                            .price-content {
+                                color: #cc1122;
+                                .icon {
+                                    font-size: 16px;
+                                }
+                                .price {
+                                    font-size: 24px;
+                                    font-weight: 700;
+                                }
+                                .low {
+                                    font-size: 12px;
+                                }
+                            }
+                        }
+                        &:last-child {
+                            margin-top: 10px;
+                            .price-content {
+                                width: 520px;
+                                color: #999;
+                                .tag {
+                                    padding: 3px;
+                                    color: #fff;
+                                    background-color: #c81623;
+                                }
+                            }
+                        }
+                    }
+                }
+                .support-row {
+                    display: flex;
+                    margin-top: 10px;
+                    line-height: 28px;
+                    .support-title {
+                        margin-right: 15px;
+                    }
+                    .support-content {
+                        width: 520px;
+                        color: #999;
+                    }
+                }
+            }
+            .product-options {
+                margin-top: 10px;
+                line-height: 28px;
+                .selected-box {
+                    display: flex;
+                    flex-wrap: wrap;
+                    .selected-tag {
+                        margin-right: 20px;
+                        padding: 0 20px;
+                        height: 30px;
+                        line-height: 30px;
+                        background-color: snow;
+                        border: 1px solid #ddd;
+                        .close {
+                            margin-left: 20px;
+                            color: #f00;
+                            cursor: pointer;
+                        }
+                    }
+                }
+                dl {
+                    margin: 13px 0;
+                    display: flex;
+                    dt {
+                        margin-right: 15px;
+                    }
+                    dd {
+                        margin-right: 5px;
+                        padding: 2px 14px;
+                        color: #666;
+                        line-height: 24px;
+                        border-style: solid;
+                        border-width: 1px;
+                        border-color: #eee #bbb #bbb #eee;
+                    }
+                    dd.active {
+                        color: #f00;
+                    }
+                }
+                .shopcart {
+                    display: flex;
+                    .nums {
+                        position: relative;
+                        margin-right: 15px;
+                        width: 55px;
+                        input {
+                            width: 38px;
+                            height: 37px;
+                            text-align: center;
+                            color: #555;
+                            border: 1px solid #ddd;
+                            outline: none;
+                        }
+                        span {
+                            position: absolute;
+                            right: 0;
+                            width: 15px;
+                            height: 18px;
+                            text-align: center;
+                            line-height: 18px;
+                            color: #666;
+                            background-color: #f1f1f1;
+                            border: 1px solid #ccc;
+                            cursor: pointer;
+                            user-select: none;
+                            &.plus {
+                                top: 0;
+                            }
+                            &.minus {
+                                bottom: 0;
+                            }
+                        }
+                    }
+                    .btn {
+                        padding: 0 25px;
+                        height: 36px;
+                        text-align: center;
+                        line-height: 36px;
+                        font-size: 16px;
+                        color: #fff;
+                        background-color: #e1251b;
+                        &:hover {
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+            }        
+        }
+
+        // 侧边栏选项卡、商品搭配、商品详情选项卡
+        .producr-section{
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;//侧轴方向顶对齐；默认会拉伸
+            // 侧边栏选项卡
+            .product-siderbar{
+                width: 210px;
+                border: 1px solid #ccc;
+                .tab-nav{
+                    display: flex;
+                    height: 40px;
+                    // 相关分类
+                    .tab-nav-item{
+                        width: 105px;
+                        text-align: center;
+                        line-height: 37px;
+                        border-top: 2px solid #fff;
+                        border-bottom: 1px solid #ccc;
+                        &.active{
+                            border-top-color: @btn-red;
+                            border-bottom-color: #fff;
+                        }
+                    }
+                    // 推荐品牌
+                }
+
+                .tab-panel{
+                    .tab-panel-item{
+                        display: none;
+                        padding: 10px;
+                        &:first-child{
+                            .cates{
+                                display: flex;
+                                flex-wrap: wrap;
+                                li{
+                                    width: 50%;
+                                    line-height: 28px;
+                                    border-bottom: 1px dashed #ededed;
+                                }
+                            }
+                        }
+                        .products{
+                            li{
+                                margin: 5px 0 15px;
+                                border-bottom: 1px solid #ededed;
+                                display: flex;
+                                flex-direction: column;//主轴垂直排列
+                                align-items: center;//侧轴也就是水平方向，居中
+                                img{
+                                    width: 152px;
+                                }
+                                p{
+                                    width: 100%;
+                                    &.price{
+                                        font-size: 16px;
+                                        color:#c81623;
+                                    }
+                                }
+                                a{
+                                    margin: 5px 0;
+                                    padding: 2px 14px;
+                                    line-height: 18px;
+                                    border: 1px solid #8c8c8c;
+                                    color: #8c8c8c;
+                                }
+                            }
+                        }
+                        &.active{
+                            display: block;
+                        }
+                    }
+                }    
+            }
+
+            // 商品搭配、商品详情选项卡
+            .product-intro{
+                width: 980px;
+                // 商品搭配
+                .product-colloction {
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                .choose-title {
+                    padding: 5px 0 5px 15px;
+                    color: #333;
+                    background-color: #f1f1f1;
+                    border-bottom: 1px solid #ddd;
+                }
+                .choose-content {
+                    padding-top: 10px;
+                    height: 170px;
+                    display: flex;
+                    .master-product {
+                        position: relative;
+                        width: 127px;
+                        height: 165px;
+                        text-align: center;
+                        img {
+                            margin: 0 auto;
+                            width: 87px;
+                        }
+                        p {
+                            color: #c81623;
+                            font-size: 16px;
+                        }
+                        &::after {
+                            content: "+";
+                            position: absolute;
+                            top: 48px;
+                            right: -25px;
+                            font-size: 16px;
+                        }
+                    }
+                    .choose-products {
+                        width: 668px;
+                        height: 165px;
+                        display: flex;
+                        li {
+                            margin: 0 20px;
+                            width: 127px;
+                            text-align: center;
+                            img {
+                                width:120px;
+                                height: 130px;
+                            }
+                        }
+                    }
+                    .total-products {
+                        margin-left: 10px;
+                        padding-left: 10px;
+                        width: 153px;
+                        height: 165px;
+                        border-left: 1px solid #ddd;
+                        p {
+                            margin: 10px 0;
+                            &:nth-child(2) {
+                                font-weight: 700;
+                            }
+                            &:nth-child(3) {
+                                font-size: 16px;
+                                color: #B1191A;
+                            }
+                             
+                        }
+                        a {
+                            display: inline-block;
+                            padding: 10px 25px;
+                            font-size: 16px;
+                            color: #fff;
+                            background-color: #e1251b;
+                            &:hover {
+                                text-decoration: none;
+                            }
+                        }
+                    }
+                }
+            }
+
+                // 商品详情选项卡
+                .product-intro-tab{
+                    .tab-nav{
+                        display: flex;
+                        height: 40px;
+                        background: #ededed;
+                        border-left: 1px solid #ddd;
+
+                        .tab-nav-item {
+                        padding: 0 11px;
+                        text-align: center;
+                        line-height: 38px;
+                        background: #fff;
+                        border: 1px solid #ddd;
+                        border-left: none;
+ 
+                        &.active {
+                            color: #fff;
+                            background: @btn-red;
+                        }
+                    }
+                    }
+
+                    .tab-panel {
+                        .tab-panel-item {
+                            display: none;              
+                            &:first-child {
+                                ul {
+                                    li {
+                                        margin: 10px 0;
+                                    }
+                                }
+                            }
+                            &.active {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 猜你喜欢
+.guess-like {
+    margin: 15px 0;
+    .wrapper {
+        border: 1px solid #ddd;
+        .like-title {
+            padding: 5px 10px;
+            border-bottom: 1px solid #ddd;
+            color: #333;
+            background-color: #f1f1f1;
+        }
+        .like-list {
+            padding: 15px 11px;
+            display: flex;
+            .like-item {
+                width:196px;
+                img {
+                    margin: 0 auto;
+                    display: block;
+                    width:167px;
+                    height: 123px;
+ 
+                }
+                .title {
+                    padding: 0 15px;
+                }
+                .price {
+                    padding: 0 15px;
+                    font-size: 16px;
+                    color: #c81623;
+                    margin-bottom: 20px;
+                }
+                .commet {
+                    padding: 0 15px;
+                }
+            }
+        }
+    }
+}
+ 
+// 页脚
+.footer {
+    background-color: #eaeaea;
+    .footer-top {
+        padding: 20px;
+        border-bottom: 1px solid #e4e1e1;
+        display: flex;
+        .footer-item {
+            h4 {
+                font-size: 14px;
+            }
+            flex: 1 1 0;
+            line-height: 18px;
+        }
+    }
+    .footer-bottom {
+        padding: 20px;
+        text-align: center;
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            span {
+                margin: 0 10px;
+                width: 1px;
+                height: 13px;
+                background: #666;
+            }
+        }
+        p {
+            margin: 10px 0;
+        }
+    }
+}
+ 
+// 固定侧边导航栏
+.page-siderbar {
+    position: fixed;
+    right: -294px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    display: flex;
+    transition: right .3s ease-in-out 0s;
+     
+    .siderbar-nav { 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;//侧轴方向底对齐
+        width: 6px;
+        background: #7a6e6e;
+ 
+        .menu-btn {
+            width: 35px;
+            height: 35px;
+            background: #7a6e6e url(../images/list.png) center/cover;/* center/cover图片水平垂直居中且等比缩放覆盖元素 */
+            cursor: pointer;
+        }
+ 
+        .nav-item {
+            position: relative;
+            width: 35px;
+            height: 35px;
+            background: #7a6e6e;
+            a {
+                display: block;
+                color: #fff;
+                i {
+                    display: block;
+                    position: relative;
+                    z-index: 100;//让它层级别高
+                    width: 35px;
+                    height: 35px;
+                    background-color: #7a6e6e;
+                    background-image: url(../images/toolbars.png);
+                    &.vip-icon {
+                        background-position: -87px -174px;
+                    }
+                    &.shopcar-icon {
+                        background-position: -50px -0px;
+                    }
+                    &.follow-icon {
+                        background-position: -50px -100px;
+                    }
+                    &.history-icon {
+                        background-position: -190px -150px;
+                    }
+                    &.message-icon {
+                            background-position: -50px -150px;
+                    }
+                    &.question-icon {
+                        background-position: -50px -250px;
+                    }
+                    &.top-icon {
+                        background-position: -50px -250px;
+                    }
+                }
+ 
+                span {
+                    position: absolute;
+                    left: 35px;
+                    top: 0;
+                    width: 62px;
+                    height: 35px;
+                    text-align: center;
+                    line-height: 35px;
+                    background: #c81122;
+                    transition: left .3s ease-in-out 0.1s;
+                }
+            }
+ 
+            &:hover {
+                background: #c81122;
+ 
+                a {
+                    i {
+                        background-color: #c81122;
+                    }
+                    span {
+                        left: -60px;
+                    }
+                }
+            }
+        }
+    }
+ 
+    .siderbar-content {
+        position: relative;
+        z-index: 200;
+        width: 294px;
+        background: bisque;
+    }
+ 
+    &.open {
+        right: 0;
+        .siderbar-nav {
+            .menu-btn {
+                background-image: url(../images/cross.png);
+            }
+        }
+    }
+}
